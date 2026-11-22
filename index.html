@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario web · Wabit Seguros · VonoaWeb</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF7F2;
+    --paper:#FFFFFF;
+    --ink:#1A1238;
+    --muted:#5B5675;
+    --faint:#8D89A3;
+    --line:#E6E0EE;
+    --blue:#5000FF;        /* Azul eléctrico (brandbook) */
+    --blue-soft:#EFE8FF;
+    --orange:#FF4E3A;      /* Naranja / Warm Red C (brandbook) */
+    --orange-text:#D52B1C; /* naranja para texto, con contraste */
+    --orange-soft:#FFF0EC;
+    --ok:#0F8A5F;
+    --radius:16px;
+    --maxw:820px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Poppins',system-ui,-apple-system,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+
+  /* ---------- Header ---------- */
+  header{padding:48px 0 26px}
+  .logo{height:54px;width:auto;display:block;margin-bottom:22px}
+  .eyebrow{font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-text)}
+  h1{
+    font-family:'Montserrat',sans-serif;font-weight:800;
+    font-size:clamp(1.9rem,6vw,3rem);line-height:1.08;margin:.3em 0 .35em;letter-spacing:-.02em;
+  }
+  h1 em{font-style:normal;color:var(--blue)}
+  .lede{color:var(--muted);font-size:1.02rem;max-width:62ch;margin:0}
+  .brandline{margin-top:20px;font-size:.86rem;color:var(--faint)}
+  .brandline b{color:var(--ink);font-weight:600}
+
+  /* ---------- Lo que entendimos ---------- */
+  .recap{
+    margin:26px 0 6px;background:var(--blue);color:#fff;border-radius:var(--radius);
+    padding:24px 22px;
+  }
+  .recap h2{color:#fff;font-size:1.15rem;margin:0 0 10px}
+  .recap ul{margin:0;padding-left:1.1em}
+  .recap li{margin:5px 0;font-size:.93rem}
+  .recap li b{font-weight:600}
+  .recap p{margin:12px 0 0;font-size:.86rem;opacity:.85}
+
+  /* ---------- Progress ---------- */
+  .progress-shell{
+    position:sticky;top:0;z-index:40;background:rgba(251,247,242,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0;margin:18px 0 8px;
+  }
+  .progress-row{display:flex;align-items:center;gap:14px}
+  .bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+  .bar > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--orange));transition:width .35s ease}
+  .pct{font-size:.8rem;font-weight:600;color:var(--muted);min-width:118px;text-align:right}
+  .pct b{color:var(--blue)}
+
+  /* ---------- Sections ---------- */
+  section.block{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 22px 10px;margin:18px 0;
+  }
+  .block-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+  .num{font-family:'Montserrat',sans-serif;font-weight:800;font-size:.95rem;color:var(--orange-text);min-width:2.2ch}
+  h2{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.32rem;margin:0;letter-spacing:-.01em}
+  .block-sub{color:var(--muted);font-size:.9rem;margin:2px 0 20px 3.4ch}
+  @media(max-width:520px){.block-sub{margin-left:0}}
+
+  /* ---------- Fields ---------- */
+  .field{margin-bottom:18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:620px){.grid2{grid-template-columns:1fr}}
+  label{display:block;font-weight:600;font-size:.9rem;margin-bottom:7px}
+  label .opt{font-weight:400;color:var(--faint);font-size:.82rem}
+  .hint{color:var(--faint);font-size:.82rem;margin:-2px 0 8px}
+  .hint.call{color:var(--blue);font-weight:500}
+  .hint.call::before{content:"☎ De la llamada · ";font-weight:600}
+  input[type=text],input[type=email],input[type=tel],input[type=url],textarea{
+    width:100%;background:#FDFCFF;color:var(--ink);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;font-family:inherit;font-size:.95rem;transition:border-color .18s, box-shadow .18s;
+  }
+  textarea{resize:vertical;min-height:92px;line-height:1.55}
+  input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(80,0,255,.14)}
+  input::placeholder,textarea::placeholder{color:#B3AFC4}
+
+  .pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+  .pill{position:relative;margin:0;font-weight:400}
+  .pill input{position:absolute;opacity:0;inset:0;cursor:pointer}
+  .pill span{
+    display:inline-block;padding:9px 15px;border-radius:99px;border:1px solid var(--line);background:#fff;
+    font-size:.87rem;color:var(--muted);cursor:pointer;transition:.16s;user-select:none;
+  }
+  .pill input:checked + span{border-color:var(--blue);color:#fff;background:var(--blue);font-weight:500}
+  .pill input:focus-visible + span{box-shadow:0 0 0 3px rgba(80,0,255,.25)}
+
+  .card{border:1px dashed #D6CDE8;border-radius:12px;padding:18px 16px 4px;margin-bottom:14px;background:#FCFAFF}
+  .card-title{font-family:'Montserrat',sans-serif;font-weight:700;color:var(--blue);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+  .card-title small{color:var(--faint);text-transform:none;font-weight:500;letter-spacing:0;font-family:'Poppins',sans-serif}
+
+  .note{margin:6px 0 18px;padding:12px 14px;border-radius:10px;background:var(--orange-soft);border-left:3px solid var(--orange);font-size:.87rem;color:var(--muted)}
+  .note b{color:var(--ink)}
+
+  /* ---------- Actions ---------- */
+  .actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding:14px 0 4px}
+  .btn{font-family:inherit;font-weight:600;font-size:.95rem;cursor:pointer;padding:14px 24px;border-radius:12px;border:1px solid transparent;transition:.18s}
+  .btn:disabled{opacity:.55;cursor:progress}
+  .btn-primary{background:var(--orange);color:#fff}
+  .btn-primary:hover{background:#E8402D}
+  .btn-ghost{background:#fff;border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+  a.btn{display:inline-block;text-decoration:none;text-align:center}
+  .sendmsg{max-width:var(--maxw);margin:14px auto 0;text-align:center;font-size:.92rem;min-height:1.2em;padding:0 16px}
+  .sendmsg.ok{color:var(--ok)}
+  .sendmsg.err{color:var(--orange-text)}
+
+  .summary{margin:26px auto}
+  .summary.hidden{display:none}
+  #resumen{
+    width:100%;min-height:320px;background:#fff;border:1px solid var(--blue);border-radius:12px;padding:16px;
+    color:var(--ink);font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:.8rem;line-height:1.6;white-space:pre-wrap;
+  }
+  .copybar{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+  .toast{
+    position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--blue);color:#fff;font-weight:600;
+    padding:12px 22px;border-radius:99px;opacity:0;transition:.3s;pointer-events:none;z-index:99;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  footer{padding:40px 0 60px;text-align:center;color:var(--faint);font-size:.82rem}
+  footer b{color:var(--muted)}
+
+  @media print{
+    .progress-shell,.actions,.copybar,.toast,.sendmsg,.summary{display:none!important}
+    section.block{break-inside:avoid}
+    .recap{background:#fff;color:#000;border:1px solid #999}.recap h2{color:#000}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <img class="logo" src="logo-wabit.png" alt="Wabit · Seguros ágiles" width="83" height="54">
+    <span class="eyebrow">VonoaWeb · Cuestionario del nuevo sitio</span>
+    <h1>Salvar vidas a través del seguro: <em>contémoslo bien</em></h1>
+    <p class="lede">Con esto armamos el relanzamiento de wabit.com.mx. Ya llenamos lo que platicamos en la llamada: <b>revísalo y corrige lo que no vaya</b>, y completa lo demás. Toma unos 10 minutos; lo opcional se puede quedar en blanco. Al terminar presiona <b>Enviar a VonoaWeb</b>.</p>
+    <div class="brandline">Preparado por <b>VonoaWeb</b> para <b>Wabit Seguros</b> · 21 de noviembre de 2026</div>
+
+    <div class="recap">
+      <h2>Lo que entendimos en la llamada</h2>
+      <ul>
+        <li><b>Cambio de look completo</b>, con libertad creativa; el conejo se queda como mascota.</li>
+        <li><b>Sensación:</b> calidez, apertura y amor al prójimo. No "premium" como Casa Hidalgo: cercano.</li>
+        <li><b>Misión:</b> acercar el seguro a la gente que normalmente no lo puede pagar.</li>
+        <li><b>Enfoque principal: gastos médicos y vida.</b> También auto, hogar, mascota y empresas.</li>
+        <li><b>Clientes desde la inteligencia artificial</b> (ChatGPT y otros), ya no desde Google Ads, que trajo muchos prospectos poco calificados.</li>
+        <li>Tienen <b>Google Business</b> sin dirección pública, además de Instagram y Facebook.</li>
+        <li>Animaciones con el conejo al bajar por la página. Se construye en <b>WordPress + Divi 5</b>, igual que Casa Hidalgo.</li>
+      </ul>
+      <p>¿Algo de esto no va? Dínoslo en la última sección.</p>
+    </div>
+  </div>
+</header>
+
+<div class="progress-shell">
+  <div class="wrap progress-row">
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="pct"><b id="pctNum">0%</b> completado</div>
+  </div>
+</div>
+
+<form id="quiz" class="wrap" autocomplete="off">
+
+  <!-- 1 -->
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Datos del negocio</h2></div>
+    <p class="block-sub">Lo básico para presentarlos bien y para el aviso legal.</p>
+
+    <div class="grid2">
+      <div class="field">
+        <label>Nombre comercial</label>
+        <input type="text" name="nombre_comercial" value="Wabit Seguros">
+      </div>
+      <div class="field">
+        <label>Slogan</label>
+        <div class="hint">Viene en su brandbook.</div>
+        <input type="text" name="slogan" value="Seguros ágiles">
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Razón social <span class="opt">· opcional</span></label>
+        <input type="text" name="razon_social" placeholder="Para el pie de página y el aviso de privacidad">
+      </div>
+      <div class="field">
+        <label>Ciudad / base de operaciones</label>
+        <div class="hint">Su aviso de privacidad dice Tlalpan, CDMX.</div>
+        <input type="text" name="ciudad" value="Ciudad de México (Tlalpan)">
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Años de experiencia en seguros</label>
+        <div class="hint">El sitio actual dice "+15 años".</div>
+        <input type="text" name="experiencia" value="Más de 15 años">
+      </div>
+      <div class="field">
+        <label>¿Desde cuándo existe la marca Wabit?</label>
+        <div class="hint call">"Lo tenemos desarrollado desde hace tres años".</div>
+        <input type="text" name="anio_marca" value="2023">
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>La agente detrás de Wabit</h2></div>
+    <p class="block-sub">Comentaste que la agente es tu esposa. En seguros, una cara y un nombre reales generan más confianza que cualquier diseño, y las IA recomiendan a personas verificables.</p>
+
+    <div class="grid2">
+      <div class="field">
+        <label>Nombre como quiere aparecer</label>
+        <input type="text" name="agente_nombre" placeholder="Ej. Lic. María Hidalgo">
+      </div>
+      <div class="field">
+        <label>Cédula de agente (CNSF)</label>
+        <div class="hint">Tipo y folio. Se pone en el pie para que se pueda verificar.</div>
+        <input type="text" name="cedula" placeholder="Ej. Cédula A · folio 123456">
+      </div>
+    </div>
+    <div class="field">
+      <label>Su historia en pocas líneas</label>
+      <div class="hint">Cómo llegó a los seguros, qué la motiva, un caso que la marcó (sin nombres de clientes).</div>
+      <textarea name="agente_historia" placeholder="Empecé en los seguros cuando..."></textarea>
+    </div>
+    <div class="field">
+      <label>¿Aparece con foto en el sitio?</label>
+      <div class="pills">
+        <label class="pill"><input type="radio" name="agente_foto" value="Sí, con foto"><span>Sí, con foto</span></label>
+        <label class="pill"><input type="radio" name="agente_foto" value="Sí, pero tenemos que tomarla"><span>Sí, falta tomarla</span></label>
+        <label class="pill"><input type="radio" name="agente_foto" value="Prefiere no aparecer"><span>Prefiere no aparecer</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>¿Hay más personas en el equipo? <span class="opt">· opcional</span></label>
+      <input type="text" name="equipo" placeholder="Nombre y qué hace cada quien">
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="block">
+    <div class="block-head"><span class="num">03</span><h2>Filosofía</h2></div>
+    <p class="block-sub">Esto define el tono de todo el sitio. Lo escribimos con tus palabras de la llamada; ajústalo con libertad.</p>
+
+    <div class="field">
+      <label>¿Por qué existe Wabit?</label>
+      <div class="hint call">Así lo dijiste</div>
+      <textarea name="filosofia" rows="5">Queremos salvar vidas a través del seguro. Un seguro de gastos médicos o de vida puede salvarte la vida cuando llega un padecimiento fuerte, y la mayoría de la gente no lo tiene porque cree que no lo puede pagar. En el IMSS o el ISSSTE muchas veces no te atienden como mereces. Nuestro trabajo es acercar el seguro a quien normalmente no lo alcanza, con calidez, apertura y amor al prójimo.</textarea>
+    </div>
+    <div class="field">
+      <label>¿Qué gana alguien al contratar con Wabit y no directo con la aseguradora?</label>
+      <div class="hint">Ej. comparan varias aseguradoras, acompañamiento cuando hay un siniestro, ayuda con reembolsos, revisión anual…</div>
+      <textarea name="diferenciadores" placeholder="Con nosotros..."></textarea>
+    </div>
+    <div class="field">
+      <label>¿A quién quieren llegar primero?</label>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="publico" value="Familias con hijos"><span>Familias con hijos</span></label>
+        <label class="pill"><input type="checkbox" name="publico" value="Jóvenes que empiezan a trabajar"><span>Jóvenes</span></label>
+        <label class="pill"><input type="checkbox" name="publico" value="Personas sin seguro del trabajo / independientes"><span>Independientes / sin prestaciones</span></label>
+        <label class="pill"><input type="checkbox" name="publico" value="Adultos mayores y sus hijos"><span>Adultos mayores</span></label>
+        <label class="pill"><input type="checkbox" name="publico" value="Dueños de pequeños negocios"><span>Pequeños negocios</span></label>
+        <label class="pill"><input type="checkbox" name="publico" value="Empresas (seguros para empleados)"><span>Empresas</span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="block">
+    <div class="block-head"><span class="num">04</span><h2>Seguros que ofrecen</h2></div>
+    <p class="block-sub">Dijiste que el enfoque es gastos médicos y vida. Esos dos van primero en el sitio y tendrán página propia y más trabajo de SEO.</p>
+
+    <div class="field">
+      <label>Seguros principales (los protagonistas)</label>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="principales" value="Gastos médicos mayores" checked><span>Gastos médicos mayores</span></label>
+        <label class="pill"><input type="checkbox" name="principales" value="Vida" checked><span>Vida</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>También ofrecen</label>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="otros_seguros" value="Auto" checked><span>Auto</span></label>
+        <label class="pill"><input type="checkbox" name="otros_seguros" value="Hogar" checked><span>Hogar</span></label>
+        <label class="pill"><input type="checkbox" name="otros_seguros" value="Mascota" checked><span>Mascota</span></label>
+        <label class="pill"><input type="checkbox" name="otros_seguros" value="Empresa / industria" checked><span>Empresa / industria</span></label>
+        <label class="pill"><input type="checkbox" name="otros_seguros" value="Gastos médicos menores"><span>Gastos médicos menores</span></label>
+        <label class="pill"><input type="checkbox" name="otros_seguros" value="Ahorro / retiro / educación"><span>Ahorro, retiro o educación</span></label>
+        <label class="pill"><input type="checkbox" name="otros_seguros" value="Accidentes personales"><span>Accidentes personales</span></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Gastos médicos mayores</div>
+      <div class="field">
+        <label>¿Desde cuánto puede costar uno, más o menos?</label>
+        <div class="hint">Para quitar el miedo de "no lo puedo pagar". Un ejemplo basta: "persona de 30 años desde $X al mes".</div>
+        <input type="text" name="gmm_precio" placeholder="Ej. desde $1,200 al mes para una persona de 30 años">
+      </div>
+      <div class="field">
+        <label>¿Qué datos piden para cotizar?</label>
+        <input type="text" name="gmm_datos" placeholder="Ej. edad de cada integrante, código postal, sexo, si fuma">
+      </div>
+      <div class="field">
+        <label>Las dudas que más les hacen <span class="opt">· opcional</span></label>
+        <textarea name="gmm_dudas" placeholder="Ej. ¿cubre enfermedades que ya tengo? ¿qué es el deducible?"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Seguro de vida</div>
+      <div class="field">
+        <label>¿Desde cuánto puede costar uno, más o menos?</label>
+        <input type="text" name="vida_precio" placeholder="Ej. desde $500 al mes por $1,000,000 de suma asegurada">
+      </div>
+      <div class="field">
+        <label>¿Qué datos piden para cotizar?</label>
+        <input type="text" name="vida_datos" placeholder="Ej. edad, si fuma, suma asegurada que busca">
+      </div>
+      <div class="field">
+        <label>Las dudas que más les hacen <span class="opt">· opcional</span></label>
+        <textarea name="vida_dudas" placeholder="Ej. ¿mi familia cobra rápido? ¿puedo recuperar lo que pagué?"></textarea>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Con qué aseguradoras trabajan?</label>
+      <div class="hint">El sitio actual dice "+5 aseguradoras" sin nombrarlas. Nombrarlas da mucha confianza (y la IA las relaciona con ustedes).</div>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="GNP"><span>GNP</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="AXA"><span>AXA</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="MetLife"><span>MetLife</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="Seguros Monterrey New York Life"><span>Monterrey New York Life</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="Allianz"><span>Allianz</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="Mapfre"><span>Mapfre</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="Plan Seguro"><span>Plan Seguro</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="BUPA"><span>BUPA</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="Quálitas"><span>Quálitas</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="Chubb"><span>Chubb</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="HDI"><span>HDI</span></label>
+        <label class="pill"><input type="checkbox" name="aseguradoras" value="Banorte"><span>Banorte</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Otras aseguradoras <span class="opt">· opcional</span></label>
+      <input type="text" name="aseguradoras_otras" placeholder="Sepáralas con comas">
+    </div>
+    <div class="field">
+      <label>¿Podemos mostrar los logos de las aseguradoras?</label>
+      <div class="pills">
+        <label class="pill"><input type="radio" name="logos_aseg" value="Sí"><span>Sí</span></label>
+        <label class="pill"><input type="radio" name="logos_aseg" value="Solo los nombres"><span>Solo los nombres</span></label>
+        <label class="pill"><input type="radio" name="logos_aseg" value="Lo consulto"><span>Lo consulto</span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="block">
+    <div class="block-head"><span class="num">05</span><h2>Contacto y prospectos</h2></div>
+    <p class="block-sub">Comentaste que el despacho de antes trajo muchos prospectos pero poco calificados. Aquí definimos cómo llega un buen cliente.</p>
+
+    <div class="grid2">
+      <div class="field">
+        <label>WhatsApp para el botón del sitio</label>
+        <div class="hint">Es el del sitio actual.</div>
+        <input type="tel" name="whatsapp" value="55 4503 5346">
+      </div>
+      <div class="field">
+        <label>Correo de contacto</label>
+        <input type="email" name="email" value="info@wabit.com.mx">
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Horario de atención <span class="opt">· opcional</span></label>
+        <input type="text" name="horario" placeholder="Lun–Vie 9:00–19:00, sáb 10:00–14:00">
+      </div>
+      <div class="field">
+        <label>¿Quién contesta los mensajes?</label>
+        <input type="text" name="quien_contesta" placeholder="Ej. la agente directamente">
+      </div>
+    </div>
+    <div class="field">
+      <label>¿Qué hace que un prospecto sea "bueno" para ustedes?</label>
+      <div class="hint">Ej. que deje edad y código postal, que tenga cierto presupuesto, que viva en cierta zona. Con esto armamos el cotizador para filtrar.</div>
+      <textarea name="buen_prospecto" placeholder="Un buen prospecto es alguien que..."></textarea>
+    </div>
+    <div class="field">
+      <label>¿Cómo prefieren que los contacten desde el sitio?</label>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="canal" value="WhatsApp con los datos ya llenos" checked><span>WhatsApp con datos ya llenos</span></label>
+        <label class="pill"><input type="checkbox" name="canal" value="Formulario que llega al correo"><span>Formulario al correo</span></label>
+        <label class="pill"><input type="checkbox" name="canal" value="Llamada"><span>Llamada</span></label>
+        <label class="pill"><input type="checkbox" name="canal" value="Agendar cita / videollamada"><span>Agendar cita</span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="block">
+    <div class="block-head"><span class="num">06</span><h2>Dónde atienden y redes</h2></div>
+    <p class="block-sub">Para Google Business y la IA importa decir qué zonas atienden, aunque no se muestre una dirección.</p>
+
+    <div class="field">
+      <label>Zonas que atienden</label>
+      <div class="hint call">Google Business sin dirección pública, por seguridad.</div>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="zonas" value="Ciudad de México" checked><span>CDMX</span></label>
+        <label class="pill"><input type="checkbox" name="zonas" value="Estado de México"><span>Estado de México</span></label>
+        <label class="pill"><input type="checkbox" name="zonas" value="Todo México (en línea)"><span>Todo México en línea</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Alcaldías, municipios o ciudades a destacar <span class="opt">· opcional</span></label>
+      <input type="text" name="zonas_detalle" placeholder="Ej. Tlalpan, Coyoacán, Benito Juárez...">
+    </div>
+    <div class="field">
+      <label>Enlace de su perfil de Google Business</label>
+      <div class="hint">En Google Maps busca "Wabit", toca Compartir y pega el enlace.</div>
+      <input type="url" name="google_business" placeholder="https://maps.app.goo.gl/...">
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Instagram</label>
+        <input type="url" name="instagram" placeholder="https://instagram.com/...">
+      </div>
+      <div class="field">
+        <label>Facebook</label>
+        <input type="url" name="facebook" placeholder="https://facebook.com/...">
+      </div>
+    </div>
+    <div class="field">
+      <label>¿Otras redes? <span class="opt">· opcional</span></label>
+      <input type="text" name="otras_redes" placeholder="TikTok, LinkedIn, YouTube...">
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="block">
+    <div class="block-head"><span class="num">07</span><h2>Imagen y el conejo</h2></div>
+    <p class="block-sub">Ya tenemos su logo en vectores y el brandbook (azul eléctrico #5000FF, naranja #FF4E3A, Montserrat y Poppins). Nos diste libertad creativa; solo queremos saber cómo ven al conejo.</p>
+
+    <div class="field">
+      <label>El conejo en el sitio nuevo</label>
+      <div class="pills">
+        <label class="pill"><input type="radio" name="conejo" value="Nuevas ilustraciones del conejo, a criterio de VonoaWeb" checked><span>Nuevas ilustraciones, a su criterio</span></label>
+        <label class="pill"><input type="radio" name="conejo" value="Usar los conejos actuales"><span>Usar los conejos actuales</span></label>
+        <label class="pill"><input type="radio" name="conejo" value="Solo el conejo del logo"><span>Solo el del logo</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Además del conejo, ¿qué imágenes quieren ver?</label>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="imagenes" value="Fotos de familias y personas reales"><span>Familias y personas reales</span></label>
+        <label class="pill"><input type="checkbox" name="imagenes" value="Fotos de la agente y su equipo"><span>La agente y su equipo</span></label>
+        <label class="pill"><input type="checkbox" name="imagenes" value="Solo ilustraciones"><span>Solo ilustraciones</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>¿Cómo quieren que se sienta?</label>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="estilo" value="Cálido y cercano" checked><span>Cálido y cercano</span></label>
+        <label class="pill"><input type="checkbox" name="estilo" value="Alegre / con energía"><span>Alegre, con energía</span></label>
+        <label class="pill"><input type="checkbox" name="estilo" value="Confiable / serio"><span>Confiable, serio</span></label>
+        <label class="pill"><input type="checkbox" name="estilo" value="Moderno / digital"><span>Moderno, digital</span></label>
+        <label class="pill"><input type="checkbox" name="estilo" value="Sencillo / fácil de entender"><span>Sencillo</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Sitios que les gusten <span class="opt">· opcional</span></label>
+      <textarea name="referencias" placeholder="https://...  — me gusta cómo explican los seguros"></textarea>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="block">
+    <div class="block-head"><span class="num">08</span><h2>Confianza</h2></div>
+    <p class="block-sub">Lo que hace que alguien que no los conoce se anime a escribir, y lo que hace que una IA los recomiende.</p>
+
+    <div class="field">
+      <label>Alianza con Vifac</label>
+      <div class="hint">Aparece en su sitio actual. Cuéntanos en qué consiste para explicarlo bien.</div>
+      <textarea name="vifac" placeholder="Ej. una parte de cada póliza apoya a..."></textarea>
+    </div>
+    <div class="field">
+      <label>Comentarios de clientes <span class="opt">· opcional, con permiso del cliente</span></label>
+      <div class="hint">Nombre (o iniciales) y qué dijo. Las reseñas de Google Business también sirven.</div>
+      <textarea name="testimonios" placeholder="“Me ayudaron con todo el reembolso…” — Laura G."></textarea>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Cifras que podamos usar <span class="opt">· opcional</span></label>
+        <input type="text" name="cifras" placeholder="Ej. +500 familias aseguradas">
+      </div>
+      <div class="field">
+        <label>Reconocimientos o certificaciones <span class="opt">· opcional</span></label>
+        <input type="text" name="reconocimientos" placeholder="Ej. bonos o premios de aseguradoras">
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="block">
+    <div class="block-head"><span class="num">09</span><h2>Lo que la gente le pregunta a la IA</h2></div>
+    <p class="block-sub">Comentaste que hoy la gente pregunta en ChatGPT y no en Google. Escribe preguntas tal como las haría un cliente; con ellas armamos los textos y las preguntas frecuentes.</p>
+
+    <div class="field">
+      <label>Preguntas reales de sus clientes</label>
+      <textarea name="preguntas_ia" rows="5" placeholder="¿Cuánto cuesta un seguro de gastos médicos para una familia en CDMX?&#10;¿Conviene un broker o ir directo a la aseguradora?&#10;¿Qué seguro de vida me conviene si tengo hijos chicos?"></textarea>
+    </div>
+    <div class="field">
+      <label>Si alguien le pregunta a ChatGPT por ustedes, ¿qué les gustaría que dijera?</label>
+      <textarea name="como_describan" placeholder="Wabit es un broker de seguros en CDMX que..."></textarea>
+    </div>
+    <div class="field">
+      <label>Competidores que conozcan <span class="opt">· opcional</span></label>
+      <input type="text" name="competidores" placeholder="Otros brokers o agentes con los que los comparan">
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="block">
+    <div class="block-head"><span class="num">10</span><h2>Materiales y notas</h2></div>
+    <p class="block-sub">Lo que ya tengas listo y cualquier cosa que quieras que sepamos.</p>
+
+    <div class="field">
+      <label>Materiales que ya tienen</label>
+      <div class="pills">
+        <label class="pill"><input type="checkbox" name="materiales" value="Logo y brandbook (ya entregados)" checked><span>Logo y brandbook ✓</span></label>
+        <label class="pill"><input type="checkbox" name="materiales" value="Ilustraciones del conejo"><span>Ilustraciones del conejo</span></label>
+        <label class="pill"><input type="checkbox" name="materiales" value="Fotos de la agente / equipo"><span>Fotos de la agente</span></label>
+        <label class="pill"><input type="checkbox" name="materiales" value="Folletos de las aseguradoras"><span>Folletos</span></label>
+        <label class="pill"><input type="checkbox" name="materiales" value="Videos"><span>Videos</span></label>
+      </div>
+    </div>
+    <p class="note">🔒 <b>No escribas contraseñas aquí.</b> El acceso de WordPress o Hostinger mándalo por WhatsApp directo a Fernando.</p>
+    <div class="field">
+      <label>Comentarios adicionales <span class="opt">· opcional</span></label>
+      <textarea name="notas" placeholder="Ideas, dudas, algo que no entendimos bien en la llamada..."></textarea>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Quién llenó esto</label>
+        <input type="text" name="contacto_nombre" placeholder="Nombre">
+      </div>
+      <div class="field">
+        <label>Teléfono directo <span class="opt">· opcional</span></label>
+        <input type="tel" name="contacto_tel" placeholder="WhatsApp">
+      </div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button type="button" class="btn btn-primary" id="btnEnviar" onclick="enviar()">Enviar a VonoaWeb</button>
+    <button type="button" class="btn btn-ghost" onclick="generar()">Ver resumen</button>
+    <button type="button" class="btn btn-ghost" onclick="window.print()">Guardar como PDF</button>
+  </div>
+  <p class="sendmsg" id="sendMsg"></p>
+</form>
+
+<div class="wrap summary hidden" id="summaryBox">
+  <div class="block-head"><span class="num">✦</span><h2>Tu resumen</h2></div>
+  <p class="block-sub" style="margin-left:0">Esto es lo que nos llega. Puedes copiarlo o mandarlo por WhatsApp como respaldo.</p>
+  <textarea id="resumen" readonly></textarea>
+  <div class="copybar">
+    <button type="button" class="btn btn-primary" onclick="copiar()">Copiar resumen</button>
+    <a class="btn btn-ghost" id="btnWa" href="#" target="_blank" rel="noopener">Mandar por WhatsApp</a>
+    <button type="button" class="btn btn-ghost" onclick="document.getElementById('quiz').scrollIntoView()">Volver a editar</button>
+  </div>
+</div>
+
+<footer class="wrap">
+  <p>Hecho por <b>VonoaWeb</b> · Diseño y desarrollo web para tu negocio</p>
+</footer>
+
+<div class="toast" id="toast">Copiado ✓</div>
+
+<script>
+  // Web3Forms: llave pública por diseño (la misma de vonoaweb.com); el aviso llega a hola@vonoaweb.com
+  const WEB3_KEY = 'd020189e-7d19-48ea-a42f-d911acc2ff72';
+  const WA_VONOA = '5215644645574';
+  const STORE = 'cuestionario-wabit';
+  const form = document.getElementById('quiz');
+
+  function fields(){ return [...form.querySelectorAll('input[name],textarea[name]')]; }
+  const groups = [...new Set(fields().map(f=>f.name))];
+  function updateProgress(){
+    let done = 0;
+    groups.forEach(name=>{
+      const els = form.querySelectorAll('[name="'+name+'"]');
+      const t = els[0].type;
+      if(t==='checkbox'||t==='radio'){ if([...els].some(e=>e.checked)) done++; }
+      else if(els[0].value.trim()!=='') done++;
+    });
+    const pct = Math.round(done/groups.length*100);
+    document.getElementById('barFill').style.width = pct+'%';
+    document.getElementById('pctNum').textContent = pct+'%';
+  }
+
+  // Borrador en el navegador (si cierra la pestaña no pierde nada)
+  function rawState(){
+    const s = {};
+    fields().forEach(f=>{
+      if(f.type==='checkbox'||f.type==='radio'){ (s[f.name]=s[f.name]||[]); if(f.checked) s[f.name].push(f.value); }
+      else s[f.name]=f.value;
+    });
+    return s;
+  }
+  function guardarBorrador(){ try{ localStorage.setItem(STORE, JSON.stringify(rawState())); }catch(e){} }
+  function cargarBorrador(){
+    let s; try{ s = JSON.parse(localStorage.getItem(STORE)||'null'); }catch(e){ s=null; }
+    if(!s) return;
+    fields().forEach(f=>{
+      const v = s[f.name]; if(v==null) return;
+      if(f.type==='checkbox'||f.type==='radio') f.checked = Array.isArray(v) && v.includes(f.value);
+      else f.value = v;
+    });
+  }
+  cargarBorrador();
+  form.addEventListener('input', ()=>{ updateProgress(); guardarBorrador(); });
+  form.addEventListener('change', ()=>{ updateProgress(); guardarBorrador(); });
+  updateProgress();
+
+  const LABELS = {
+    nombre_comercial:'Nombre comercial', slogan:'Slogan', razon_social:'Razón social', ciudad:'Ciudad', experiencia:'Experiencia', anio_marca:'Marca Wabit desde',
+    agente_nombre:'Agente', cedula:'Cédula CNSF', agente_historia:'Historia de la agente', agente_foto:'Foto de la agente', equipo:'Equipo',
+    filosofia:'Filosofía', diferenciadores:'Ventaja vs. ir directo a la aseguradora', publico:'Público prioritario',
+    principales:'Seguros principales', otros_seguros:'También ofrecen',
+    gmm_precio:'GMM · desde', gmm_datos:'GMM · datos para cotizar', gmm_dudas:'GMM · dudas frecuentes',
+    vida_precio:'Vida · desde', vida_datos:'Vida · datos para cotizar', vida_dudas:'Vida · dudas frecuentes',
+    aseguradoras:'Aseguradoras', aseguradoras_otras:'Otras aseguradoras', logos_aseg:'Logos de aseguradoras',
+    whatsapp:'WhatsApp', email:'Correo', horario:'Horario', quien_contesta:'Quién contesta', buen_prospecto:'Buen prospecto', canal:'Canal de contacto',
+    zonas:'Zonas', zonas_detalle:'Zonas a destacar', google_business:'Google Business', instagram:'Instagram', facebook:'Facebook', otras_redes:'Otras redes',
+    conejo:'Conejo', imagenes:'Imágenes', estilo:'Estilo', referencias:'Referencias',
+    vifac:'Alianza Vifac', testimonios:'Testimonios', cifras:'Cifras', reconocimientos:'Reconocimientos',
+    preguntas_ia:'Preguntas de clientes', como_describan:'Cómo quieren que los describa la IA', competidores:'Competidores',
+    materiales:'Materiales', notas:'Notas', contacto_nombre:'Llenó', contacto_tel:'Tel.'
+  };
+  const SECTIONS = [
+    ['DATOS DEL NEGOCIO',['nombre_comercial','slogan','razon_social','ciudad','experiencia','anio_marca']],
+    ['LA AGENTE',['agente_nombre','cedula','agente_historia','agente_foto','equipo']],
+    ['FILOSOFÍA',['filosofia','diferenciadores','publico']],
+    ['SEGUROS',['principales','otros_seguros','gmm_precio','gmm_datos','gmm_dudas','vida_precio','vida_datos','vida_dudas','aseguradoras','aseguradoras_otras','logos_aseg']],
+    ['CONTACTO Y PROSPECTOS',['whatsapp','email','horario','quien_contesta','buen_prospecto','canal']],
+    ['ZONAS Y REDES',['zonas','zonas_detalle','google_business','instagram','facebook','otras_redes']],
+    ['IMAGEN',['conejo','imagenes','estilo','referencias']],
+    ['CONFIANZA',['vifac','testimonios','cifras','reconocimientos']],
+    ['IA',['preguntas_ia','como_describan','competidores']],
+    ['MATERIALES Y NOTAS',['materiales','notas','contacto_nombre','contacto_tel']]
+  ];
+  function valueOf(name){
+    const els = form.querySelectorAll('[name="'+name+'"]');
+    if(!els.length) return '';
+    const t = els[0].type;
+    if(t==='checkbox'||t==='radio') return [...els].filter(e=>e.checked).map(e=>e.value).join(', ');
+    return els[0].value.trim();
+  }
+  function buildResumen(){
+    const fecha = new Date().toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});
+    let txt = 'CUESTIONARIO WEB — WABIT SEGUROS\nVonoaWeb · '+fecha+'\n========================================\n';
+    SECTIONS.forEach(([title,keys])=>{
+      let body='';
+      keys.forEach(k=>{ const v = valueOf(k); if(v) body += '  '+LABELS[k]+': '+v+'\n'; });
+      if(body.trim()) txt += '\n【 '+title+' 】\n'+body;
+    });
+    return txt + '\n========================================\n';
+  }
+  function mostrarResumen(txt){
+    document.getElementById('resumen').value = txt;
+    document.getElementById('btnWa').href = 'https://wa.me/'+WA_VONOA+'?text='+encodeURIComponent(txt);
+    document.getElementById('summaryBox').classList.remove('hidden');
+  }
+  function generar(){ mostrarResumen(buildResumen()); document.getElementById('summaryBox').scrollIntoView({behavior:'smooth'}); }
+  function setMsg(text, cls){ const el = document.getElementById('sendMsg'); el.textContent = text; el.className = 'sendmsg'+(cls?' '+cls:''); }
+
+  async function enviar(){
+    const btn = document.getElementById('btnEnviar');
+    const resumen = buildResumen();
+    btn.disabled = true; const original = btn.textContent; btn.textContent = 'Enviando…';
+    setMsg('Enviando tu información…','');
+    const body = new FormData();
+    body.append('access_key', WEB3_KEY);
+    body.append('subject', 'Cuestionario web · Wabit Seguros');
+    body.append('from_name', 'Cuestionario Wabit');
+    body.append('name', valueOf('contacto_nombre') || 'Wabit Seguros');
+    body.append('message', resumen);
+    try{
+      const res = await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Accept':'application/json'},body});
+      const data = await res.json().catch(()=>({}));
+      if(!res.ok || !data.success) throw new Error(data.message || ('HTTP '+res.status));
+      mostrarResumen(resumen);
+      setMsg('✓ ¡Recibido! Ya nos llegó tu información. Gracias.','ok');
+      btn.textContent = '✓ Enviado'; showToast('Enviado ✓');
+    }catch(err){
+      console.error(err);
+      btn.disabled = false; btn.textContent = original;
+      setMsg('No se pudo enviar automáticamente. Abajo está tu resumen: presiona "Mandar por WhatsApp" y nos llega igual.','err');
+      generar();
+    }
+  }
+  function copiar(){
+    const ta = document.getElementById('resumen'); ta.select();
+    navigator.clipboard.writeText(ta.value).then(()=>showToast('Copiado ✓')).catch(()=>{ document.execCommand('copy'); showToast('Copiado ✓'); });
+  }
+  function showToast(msg){ const t = document.getElementById('toast'); if(msg) t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+  window.generar = generar; window.copiar = copiar; window.enviar = enviar;
+</script>
+</body>
+</html>
